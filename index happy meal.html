@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivo Happy Meal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f9f5e5;
+            padding-top: 70px;
+        }
+
+        .menu-decadas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 15px 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #ddd;
+            z-index: 100;
+        }
+
+        .menu-decadas a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .menu-decadas a:hover {
+            color: #ae2731;
+        }
+
+        .menu-decadas .menu-numero {
+            font-family: "Special Gothic Expanded One", sans-serif;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .menu-decadas .menu-etiqueta {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        header {
+        width: 100%;
+        min-height: 40p%;
+        padding: 40px 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2px;
+        }
+
+        header h1 {
+
+            font-size: 50px;
+            font-family: "Special Gothic Expanded One", sans-serif;
+            color: #ae2731;
+            margin-bottom: 10px;
+        }
+
+        header p{
+            max-width: 1000px
+        }
+
+        .contenedor-general {
+            display: flex;
+            gap: 40px;
+            max-width: 1520px; 
+            padding: 0 20px;
+        }
+
+        .columna-izq {
+            width: 60%;
+            border-left: 3px solid #666;
+            padding-left: 75px; 
+            position: relative;
+        }
+
+        .bloque-izq::before {
+            content: "";
+            position: absolute;
+            left: -85px;
+            top: 6%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .bloque-izq {
+            height: 100vh; 
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: 10vh;
+            scroll-margin-top: 70px;
+        }
+
+        .bloque-decada h1 {
+            font-family: "Special Gothic Expanded One", sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            margin: 0
+        }
+
+            .bloque-izq[data-era="70s"] .bloque-decada h1 { color: #ae2731; }
+            .bloque-izq[data-era="80s"] .bloque-decada h1 { color: #d8973d; }
+            .bloque-izq[data-era="90s"] .bloque-decada h1 { color: #640d15; }
+            .bloque-izq[data-era="00s"] .bloque-decada h1 { color: #fe9bb8; }
+            .bloque-izq[data-era="10s"] .bloque-decada h1 { color: #83a2a7; }
+            .bloque-izq[data-era="20s"] .bloque-decada h1 { color: #384146; }
+
+        .cuadro-texto-decada {
+            margin-top: 8px;
+            padding: 20px 0;
+            min-height: 150px;
+            }
+
+        .columna-der {
+            width: 40%; 
+            position: sticky;
+            top: 10vh;
+            height: 85vh;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column; 
+            transition: background-color 0.5s ease, border-color 0.5s ease;
+        }
+
+        /* --- ESTADOS MUTABLES POR DÉCADA --- */
+        .era-70s { background-color: #ae2731; color: #f3e5be; }
+        .era-80s { background-color: #d8973d; color: #f3e5be; }
+        .era-90s { background-color: #640d15; color: #f3e5be; }
+        .era-00s { background-color: #fe9bb8; color: #640d15; }
+        .era-10s { background-color: #83a2a7; color: #f3e5be; }
+        .era-20s { background-color: #384146; color: #f3e5be; }
+
+        .ficha-datos {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            height: 100%;
+        }
+
+        #titulo-dinamico {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="menu-decadas">
+        <a href="#decada-70s">
+            <span class="menu-numero">79</span>
+        </a>
+        <a href="#decada-80s">
+            <span class="menu-numero">80s</span>
+        </a>
+        <a href="#decada-90s">
+            <span class="menu-numero">90s</span>
+        </a>
+        <a href="#decada-00s">
+            <span class="menu-numero">00s</span>
+        </a>
+        <a href="#decada-10s">
+            <span class="menu-numero">10s</span>
+        </a>
+        <a href="#decada-20s">
+            <span class="menu-numero">20s</span>
+        </a>
+    </nav>
+
+    <header>
+        <h1>CAJITA FELIZ</h1> 
+        <h2>Historia y Archivo</h2>
+        <p>La "Cajita Feliz" u originalmente "Happy Meal", es la categoría infantil que McDonalds lleva incorporando desde 1979 en su menú.</p>
+
+        <p>Esta se caracteriza por incluir una porción más pequeña del menú regular e incluyendo con ella un juguete de regalo, los cuales no sólo han sido un gran objeto de valor y nostalgia para consumidores de múltiples generaciones, sino que también un reflejo de la identidad de cada una.</p>
+
+        <p>¿Sabías que la creación de la cajita feliz fue gracias a una mujer chilena? Echemos un vistazo a su historia!</p>
+
+    </header>
+
+    <main class="contenedor-general">
+
+        <section class="columna-izq">
+            <article class="bloque-izq" id="decada-70s" data-era="70s" data-decada-json="1970s" data-titulo="1979">
+                <section class="bloque-decada h1">
+                <h1>1979 E INICIOS</h1>
+                <div class="cuadro-texto-decada">
+                    <p>Los orígenes de la Cajita Feliz se remontan hacia mediados de la década de 1970, cuando Yolanda Fernández, una mujer chilena que residia en Guatemala como copropietaria de la franquicia, observó la necesidad en familias de crear menús con porciones adecuadas para niños, creando así el "Menú Ronald" que posteriormente se redefiniría como "Comida Feliz".</p>
+
+                    <p>La Cajita Feliz incorporaba una hamburguesa pequeña, papas, una bebida y un juguete de regalo. Estos juguetes, a diferencia de lo que estamos acostumbrados, comenzaron siendo originales de la marca de McDonalds y 100% independientes de cualquier franquicia afiliada. </p>
+
+                    <p>Esta línea de tiempo reúne las grandes colecciones oficiales a nivel nacional, sin embargo, durante los inicios de la Cajita Feliz muchos juguetes fueron lanzados exclusivamente a zonas específicas de ciertos estados.</p>
+                </div>
+                </section>
+            </article>
+
+            <article class="bloque-izq" id="decada-80s" data-era="80s" data-decada-json="1980s" data-titulo="AÑOS 80'S">
+                <section class="bloque-decada h1">
+                <h1>1980s</h1>
+                <div class="cuadro-texto-decada">
+                    <p>Durante los años 80, McDonald's buscó consolidar su propio universo de marca. A diferencia de la asociación a diferentes marcas que solemos percibir las generaciones más recientes, la estrategia de diseño de la Cajita Feliz durante esta década se centró en sus propios íconos: Ronald McDonald, Grimace, Birdie y Hamburglar, en su universo "McDonaldland"</p>
+
+                    <p>Excluyendo los lanzamientos regionales, más de la mitad de los lanzamientos de la década se centraron en la línea independiente de McDonalds, siendo los McDonalds Changeables las figuras más populares.</p>
+                </div>
+                </section>
+            </article>
+
+            <article class="bloque-izq" id="decada-90s" data-era="90s" data-decada-json="1990s" data-titulo="AÑOS 90'S">
+                <section class="bloque-decada h1">
+                <h1>1990s</h1>
+                <div class="cuadro-texto-decada">
+                    <p>No es hasta los años 90, cuando la Cajita Feliz empieza a transformarse en el modelo de ventas que conocemos hoy en día, al transformarse en una de las plataformas publicitaria más poderosa y codiciada del entretenimiento.</p>
+
+                    <p>Durante esta década, las alianzas con Hollywood, videojuegos y grandes marcas de juguetes se volvieron la normalidad del menú, duplicando en fabricación y lanzamientos a su década anterior.</p>
+
+                    <p>Esto redefinió la propuesta de valor de la Cajita Feliz, ahora teniendo usuarios de todos los gustos y edades, atrayendo a un público adulto que compraba los menús por decenas solo para coleccionar las variantes y rompiendo récords históricos de producción.</p>
+                </div>
+                </section>
+            </article>
+
+            <article class="bloque-izq" id="decada-00s" data-era="00s" data-decada-json="2000s" data-titulo="AÑOS 2000'S">
+                <section class="bloque-decada h1">
+                <h1>2000s</h1>
+                <div class="cuadro-texto-decada">
+                    <p>Con la llegada del nuevo siglo, los juguetes plásticos tradicionales comenzaron a competir directamente contra el auge de los videojuegos y el entretenimiento digital portátil, por lo que sus lanzamientos más icónicos de la década se caracterizaron por ir más allá de la manufactura tradicional de los últimos 20 años.</p>
+
+                    <p>Las colecciones más características de esta década fueron los lanzamientos de los nuevos "Handheld Games", las cuales eran miniconsolas portátiles equipadas con pantallas LCD que incluían minijuegos de diferentes franquicias.</p>
+
+                    <p>Paralelamente, esta fue la década en la que marca comenzó a diversificar geográficamente sus estrategias; ya que si bien los lanzamientos nacionales de Estados Unidos se empezaron a distribuir internacionalmente, llegando también a Chile, también se incorporaron colecciones exclusivas a nivel continental para conectar de manera más directa con su respectivo público.</p>
+                </div>
+                </section>
+            </article>
+
+            <article class="bloque-izq" id="decada-10s" data-era="10s" data-decada-json="2010s" data-titulo="AÑOS 2010s">
+                <section class="bloque-decada h1">
+                <h1>2010s</h1>
+                <div class="cuadro-texto-decada">
+                    <p>Tras el éxito de ventas y popularidad masiva dentro y fuera de Estados Unidos en la década anterior, la Cajita Feliz se convirtió en el blanco de intensas críticas y debates sobre la salud infantil en la década del 2010. Por lo que si bien no hubo un cambio contrastante en sus colecciones de juguetes, si las hubo en la comida de acompañamiento, ahora incorporando rodajas de manzana y reducción en las porciones de manera obligatoria.</p>
+
+                    <p>Sin embargo, las limitaciones solamente se llevaron al área del menú, ya que durante la década del 2010 se exploró mucho el uso de colecciones como una extensión más de las franquicias en vez de ser sólo una adaptación. La franquicia de Pokémon es un ejemplo de esto, dónde se empezaron a incorporar cartas promocionales oficiales del TCG junto a los juguetes físicos, manteniendo fiel a su audiencia fanática. </p>
+                </div>
+                </section>
+            </article>
+
+            <article class="bloque-izq" id="decada-20s" data-era="20s" data-decada-json="2020s" data-titulo="AÑOS 2020s">
+                <section class="bloque-decada h1">
+                <h1>2020s</h1>
+                <div class="cuadro-texto-decada">
+                    <p>Si los 2010 fueron la respuesta a la crisis de salud, los 2020 se convirtieron en la respuesta a la crisis climática y ambiental. </p>
+
+                    <p>La presión social obligó a la marca a cambiar de foco debido la contaminación causada por la producción masiva de plástico de manera anual. Como respuesta, la corporación anunció el compromiso global de eliminar casi por completo los plásticos vírgenes a base de combustibles fósiles en sus juguetes y de la misma forma, reducir sus lanzamientos anuales.</p>
+
+                    <p>Esto trajo consigo un debate invisible pero evidente para los fanáticos de la Cajita Feliz, la drástica reducción en la creatividad y calidad material de los juguetes. Al sustituir el plástico por el cartón y el papel y al apuntar a una nueva audiencia infantil que ya no encuentra estímulo en los objetos análogos, la Cajita Feliz ha perdido su corona como el epicentro del entretenimiento para niños, sin embargo se mantiene viva como un recuerdo de la nostalgia adulta.</p>
+                </div>
+                </section>
+            </article>
+
+        </section>
+
+        <aside class="columna-der" id="caja-sticky">
+            <div class="ficha-datos">
+                <h1 id="titulo-dinamico"></h1>         
+                <div id="bloque-resultados-filtro" style="overflow-y: auto; flex: 1;">
+                    <strong>Juguetes por década: <span id="contador-resultados"></span></strong>
+                    <ul id="lista-juguetes-filtrados" style="margin-top: 10px; padding-left: 20px;"></ul>
+                </div>
+                    <select name="franquicias" id="selector-franquicias" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                        <option value="todos">Filtrar por franquicia</option>
+                    </select>
+                    <select name="anos" id="selector-anos" style="width: 100%; padding: 10px;">
+                        <option value="todos">Filtrar por año</option>
+                    </select>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        const cajaSticky = document.getElementById('caja-sticky');
+        const tituloDinamico = document.getElementById('titulo-dinamico');
+        const selectorFranquicias = document.getElementById('selector-franquicias');
+        const selectorAnos = document.getElementById('selector-anos');
+        const listaJuguetesFiltrados = document.getElementById('lista-juguetes-filtrados');
+        const contadorResultados = document.getElementById('contador-resultados');
+
+        let datosJuguetes = [];
+        let decadaActiva = null;
+
+        fetch('https://raw.githubusercontent.com/f19rencia/happy-meal/refs/heads/main/datos.json')
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                datosJuguetes = datos;
+                // Si el observer ya detectó una década antes de que cargara el JSON, poblamos ahora
+                if (decadaActiva) {
+                    poblarSelectores(decadaActiva);
+                }
+            })
+            .catch(error => console.error('Error al cargar el JSON de juguetes:', error));
+
+        function poblarSelectores(decadaJson) {
+            const itemsDecada = datosJuguetes.filter(item => item.decada === decadaJson);
+
+            const franquiciasUnicas = [...new Set(itemsDecada.map(item => item.franquicia))].sort();
+            const anosUnicos = [...new Set(itemsDecada.map(item => item.ano))].sort((a, b) => a - b);
+
+            selectorFranquicias.innerHTML = '<option value="todos">-- Filtrar por franquicia --</option>';
+            franquiciasUnicas.forEach(franquicia => {
+                const opcion = document.createElement('option');
+                opcion.value = franquicia;
+                opcion.textContent = franquicia;
+                selectorFranquicias.appendChild(opcion);
+            });
+
+            selectorAnos.innerHTML = '<option value="todos">-- Filtrar por año --</option>';
+            anosUnicos.forEach(ano => {
+                const opcion = document.createElement('option');
+                opcion.value = ano;
+                opcion.textContent = ano;
+                selectorAnos.appendChild(opcion);
+            });
+
+            selectorFranquicias.value = 'todos';
+            selectorAnos.value = 'todos';
+            renderizarListado();
+        }
+
+        function renderizarListado() {
+            if (!decadaActiva) return;
+
+            const franquiciaSeleccionada = selectorFranquicias.value;
+            const anoSeleccionado = selectorAnos.value;
+
+            let itemsFiltrados = datosJuguetes.filter(item => item.decada === decadaActiva);
+
+            if (franquiciaSeleccionada !== 'todos') {
+                itemsFiltrados = itemsFiltrados.filter(item => item.franquicia === franquiciaSeleccionada);
+            }
+            if (anoSeleccionado !== 'todos') {
+                itemsFiltrados = itemsFiltrados.filter(item => String(item.ano) === anoSeleccionado);
+            }
+
+            listaJuguetesFiltrados.innerHTML = '';
+            itemsFiltrados.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.nombre} (${item.ano}) — ${item.franquicia}`;
+                listaJuguetesFiltrados.appendChild(li);
+            });
+
+            contadorResultados.textContent = itemsFiltrados.length;
+        }
+
+        selectorFranquicias.addEventListener('change', renderizarListado);
+        selectorAnos.addEventListener('change', renderizarListado);
+
+        const opciones = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 
+        };
+
+        const conmutadorDeEras = new IntersectionObserver((entradas) => {
+            entradas.forEach(entrada => {
+                if (entrada.isIntersecting) {
+                    const seccionActual = entrada.target;
+                    
+                    const era = seccionActual.getAttribute('data-era');
+                    const titulo = seccionActual.getAttribute('data-titulo');
+                    const decadaJson = seccionActual.getAttribute('data-decada-json');
+
+                    tituloDinamico.innerText = titulo;
+
+                    cajaSticky.className = 'columna-der'; 
+                    cajaSticky.classList.add(`era-${era}`); 
+
+                    decadaActiva = decadaJson;
+                    if (datosJuguetes.length > 0) {
+                        poblarSelectores(decadaJson);
+                    }
+                }
+            });
+        }, opciones);
+
+        document.querySelectorAll('.bloque-izq').forEach(bloque => {
+            conmutadorDeEras.observe(bloque);
+        });
+    </script>
+</body>
+</html>
